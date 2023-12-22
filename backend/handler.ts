@@ -14,7 +14,7 @@ export async function handler(event: Record<string, any>) {
     };
   } catch (error: any) {
     return {
-      statusCode: error?.cause || 400,
+      statusCode: error?.['cause']?.['statusCode'] || 400,
       body: JSON.stringify('Error')
     };
   }
