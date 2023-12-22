@@ -31,7 +31,7 @@ package:
 
 custom:
   config:
-    awsAccountNumber: ${param:awsAccountNumber, '123412341234'} # SET THIS
+    awsAccountNumber: ${param:awsAccountNumber, '450556678406'} # SET THIS
     #GITHUB_CREDENTIALS: ${ssm:/aws/reference/secretsmanager/GitHub} # If using AWS Secrets Manager
   aws:
     tableName: ${self:service}-${self:provider.stage}
@@ -57,7 +57,7 @@ functions:
     environment:
       REGION: ${aws:region}
       TABLE_NAME: ${self:custom.aws.tableName}
-      GITHUB_TOKEN: '' # SET THIS
+      GITHUB_TOKEN: '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' # SET THIS
       #GITHUB_TOKEN:  ${self:custom.config.GITHUB_CREDENTIALS.TOKEN} # If using AWS Secrets Manager
 
 resources:
