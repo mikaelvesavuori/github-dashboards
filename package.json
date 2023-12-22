@@ -1,7 +1,7 @@
 {
   "name": "github-dashboards",
   "version": "1.0.0",
-  "description": "Visualize your GitHub's repositories and their workflow statuses like no thing at all",
+  "description": "Visualize your GitHub repositories and their workflow statuses like no thing at all",
   "author": "Mikael Vesavuori",
   "license": "MIT",
   "keywords": [

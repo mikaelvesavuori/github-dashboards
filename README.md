@@ -1,6 +1,6 @@
 # GitHub Dashboards
 
-## Visualize your GitHub's repositories and their workflow statuses 📈 like no thing at all 😎
+## Visualize your GitHub repositories and their workflow statuses 📈 like no thing at all 😎
 
 This is a ready-to-use solution with a serverless backend (AWS: API Gateway, Lambda, DynamoDB) and a simple frontend to render the dashboards.
 
@@ -16,7 +16,7 @@ From the Lambda function, it will first check a hash of the input in DynamoDB as
 
 _If you're curious, each dashboard component is ~1200 bytes so that should give you an idea for the DynamoDB usage._
 
-**Feel free to upgrade it with nicer visuals, API keys or security, or anything else you fancy!**
+**Feel free to upgrade it with nicer visuals, API keys or security, client-side caching, or anything else you fancy!**
 
 ## Prerequisites
 
