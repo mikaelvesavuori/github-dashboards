@@ -1,0 +1,84 @@
+service: github-dashboards
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  architecture: arm64
+  stage: ${opt:stage, 'prod'}
+  region:  ${opt:region, 'eu-north-1'}
+  memorySize: ${opt:memory, 1024}
+  timeout: ${opt:timeout, 10}
+  logRetentionInDays: ${param:logRetentionInDays, 7}
+  versionFunctions: false
+  httpApi:
+    cors: true
+  deploymentBucket:
+    blockPublicAccess: true
+    maxPreviousDeploymentArtifacts: 5
+    serverSideEncryption: AES256
+  stackTags:
+    Usage: ${self:service}
+  tags:
+    Usage: ${self:service}
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+  - serverless-iam-roles-per-function
+
+package:
+  individually: true
+
+custom:
+  config:
+    awsAccountNumber: ${param:awsAccountNumber, '123412341234'} # SET THIS
+    #GITHUB_CREDENTIALS: ${ssm:/aws/reference/secretsmanager/GitHub} # If using AWS Secrets Manager
+  aws:
+    tableName: ${self:service}-${self:provider.stage}
+    databaseArn: arn:aws:dynamodb:${aws:region}:${self:custom.config.awsAccountNumber}:table/${self:custom.aws.tableName}
+  esbuild:
+    bundle: true
+    minify: true
+
+functions:
+  GetDashboardData:
+    handler: backend/handler.handler
+    description: Get GitHub data to render in a dashboard
+    events:
+      - httpApi:
+          method: POST
+          path: /
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+          - dynamodb:Query
+        Resource: ${self:custom.aws.databaseArn}
+    environment:
+      REGION: ${aws:region}
+      TABLE_NAME: ${self:custom.aws.tableName}
+      GITHUB_TOKEN: '' # SET THIS
+      #GITHUB_TOKEN:  ${self:custom.config.GITHUB_CREDENTIALS.TOKEN} # If using AWS Secrets Manager
+
+resources:
+  Resources:
+    DashboardDataTable:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain
+      UpdateReplacePolicy: Retain
+      Properties:
+        TableName: ${self:custom.aws.tableName}
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+        TimeToLiveSpecification:
+          AttributeName: expiresAt
+          Enabled: true
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
+        BillingMode: PAY_PER_REQUEST
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true

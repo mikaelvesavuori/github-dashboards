@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+  <head>
+    <title>
+      GitHub Dashboard
+    </title>
+
+    <style>
+      :root {
+        --bg-color-primary: #161925;
+        --bg-color-secondary: #F5F0F6;
+        --text-color: #0D1321;
+      }
+
+      html, body {
+        max-width: 100%;
+        margin: 0 auto;
+        font-family: system-ui, sans-serif;
+        font-weight: normal;
+        background-color: var(--bg-color-primary);
+        color: var(--text-color);
+      }
+
+      a {
+        color: var(--text-color);
+      }
+
+      #dashboard {
+        width: 95%;
+        margin: 0 auto;
+        display: flex;
+        flex-flow: row wrap;
+      }
+
+      .component {
+        flex: 1 1 20%;
+        padding: 1rem;
+        margin: 1rem;
+        background-color: var(--bg-color-secondary);
+        border-radius: 0.5rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="dashboard"></div>
+
+    <script>
+      async function renderDashboard() {
+        const data = await getData();
+
+        data.forEach((item) => {
+          const id = item.repo;
+          const badge = item.badge;
+          const repo = `<strong><a href="https://github.com/${item.owner}/${item.repo}/">${item.owner}/${item.repo}</a></strong>`;
+          const status = `<strong>Status</strong>: ${item.status}`;
+          const conclusion = `<strong>Conclusion</strong>: ${item.conclusion}`;
+
+          appendArea(id);
+          appendSvg(id, badge);
+          appendText(id, repo);
+          appendText(id, status);
+          appendText(id, conclusion);
+        });
+      };
+
+      // EDIT THESE VALUES
+      async function getData() {
+        const url = "https://RANDOM.execute-api.REGION.amazonaws.com/";
+        return await fetch(url, {
+          method: "POST",
+          body: JSON.stringify([
+            {
+              "owner": "mikaelvesavuori",
+              "repo": "figmagic",
+              "ref": "main"
+            },
+            {
+              "owner": "mikaelvesavuori",
+              "repo": "dorametrix",
+              "ref": "main"
+            },
+            {
+              "owner": "mikaelvesavuori",
+              "repo": "mikrotester",
+              "ref": "main"
+            },
+            {
+              "owner": "mikaelvesavuori",
+              "repo": "mikrotrace",
+              "ref": "main"
+            },
+            {
+              "owner": "mikaelvesavuori",
+              "repo": "mikrolog",
+              "ref": "main"
+            },
+            {
+              "owner": "mikaelvesavuori",
+              "repo": "catalogist",
+              "ref": "main"
+            },
+            {
+              "owner": "mikaelvesavuori",
+              "repo": "archfit",
+              "ref": "main"
+            }
+          ])
+        }).then(res => res.json());
+      }
+
+      function appendArea(id) {
+        const element = document.createElement("div");
+        element.classList = ["component"];
+        element.id = id;
+        document.querySelector("#dashboard").appendChild(element);
+      }
+
+      function appendSvg(id, badge) {
+        const parser = new DOMParser();
+        const element = parser.parseFromString(badge, "image/svg+xml").documentElement;
+        document.querySelector(`#${id}`).appendChild(element);
+      }
+
+      function appendText(id, text) {
+        const element = document.createElement('p');
+        element.innerHTML = text;
+        document.querySelector(`#${id}`).appendChild(element);
+      }
+
+      renderDashboard();
+    </script>
+  </body>
+</html>

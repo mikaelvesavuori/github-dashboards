@@ -1,0 +1,56 @@
+{
+  "name": "github-dashboards",
+  "version": "1.0.0",
+  "description": "Visualize your GitHub's repositories and their workflow statuses like no thing at all",
+  "author": "Mikael Vesavuori",
+  "license": "MIT",
+  "keywords": [
+    "serverless",
+    "github",
+    "dashboards",
+    "visualization"
+  ],
+  "scripts": {
+    "start": "npx sls offline --reloadHandler",
+    "test": "npx c8 -reporter=lcov ava",
+    "build": "npx sls package",
+    "deploy": "npx sls deploy",
+    "teardown": "npx sls remove"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "3"
+  },
+  "devDependencies": {
+    "@ava/typescript": "4",
+    "@types/aws-lambda": "8",
+    "@types/node": "20",
+    "@typescript-eslint/eslint-plugin": "6",
+    "@typescript-eslint/parser": "6",
+    "ava": "6",
+    "c8": "7",
+    "eslint-config-prettier": "9",
+    "eslint-plugin-prettier": "5",
+    "eslint": "8",
+    "prettier": "3",
+    "serverless-esbuild": "1",
+    "serverless-iam-roles-per-function": "3",
+    "serverless-offline": "13",
+    "serverless": "3",
+    "ts-node": "10",
+    "typescript": "5"
+  },
+  "ava": {
+    "typescript": {
+      "rewritePaths": {
+        "src/": "lib/"
+      },
+      "compile": false
+    },
+    "files": [
+      "tests/**/*.ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  }
+}
