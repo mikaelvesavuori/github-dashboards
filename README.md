@@ -12,6 +12,8 @@ Works with both private and public repositories.
 
 Calls are made from the front-end to the back-end without any authorization. It's suggested you lock down the front-end with some applicable means, like an SSO layer or Cloudflare Access or something similar.
 
+_If you want to get data for private repositories you will need a "classic" GitHub personal access token (PAT) with permissions to use the `workflow` scope. If you are in an organization, make sure to authorize the use of the token against your organization._
+
 From the Lambda function, it will first check a hash of the input in DynamoDB as a type of cache. If the cache has content and it's fresher than a minute, return it. Else go to GitHub to retrieve workflow data, transform it a bit, pass it to Shields.io to generate the SVG badge, and then finally return all of it.
 
 _If you're curious, each dashboard component is ~1200 bytes so that should give you an idea for the DynamoDB usage._
