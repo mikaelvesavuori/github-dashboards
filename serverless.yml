@@ -31,7 +31,7 @@ package:
 
 custom:
   config:
-    awsAccountNumber: ${param:awsAccountNumber, aws:accountId} # SET THIS
+    awsAccountNumber: ${param:awsAccountNumber, aws:accountId}
     #GITHUB_CREDENTIALS: ${ssm:/aws/reference/secretsmanager/GitHub} # If using AWS Secrets Manager
   aws:
     tableName: ${self:service}-${self:provider.stage}
