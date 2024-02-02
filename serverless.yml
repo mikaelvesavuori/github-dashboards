@@ -57,7 +57,7 @@ functions:
     environment:
       REGION: ${aws:region}
       TABLE_NAME: ${self:custom.aws.tableName}
-      GITHUB_TOKEN: ${env:GITHUB_TOKEN} # SET THIS
+      GITHUB_TOKEN: '' # SET THIS
       #GITHUB_TOKEN:  ${self:custom.config.GITHUB_CREDENTIALS.TOKEN} # If using AWS Secrets Manager
 
 resources:
