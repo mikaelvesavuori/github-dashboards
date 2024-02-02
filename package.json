@@ -1,6 +1,6 @@
 {
   "name": "github-dashboards",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Visualize your GitHub repositories and their workflow statuses like no thing at all",
   "author": "Mikael Vesavuori",
   "license": "MIT",
@@ -27,7 +27,7 @@
     "@typescript-eslint/eslint-plugin": "6",
     "@typescript-eslint/parser": "6",
     "ava": "6",
-    "c8": "7",
+    "c8": "9",
     "eslint-config-prettier": "9",
     "eslint-plugin-prettier": "5",
     "eslint": "8",
