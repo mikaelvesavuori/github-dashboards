@@ -8,7 +8,8 @@ import { getCleanStatus } from '../../application/getCleanStatus';
 export async function getWorkflowStatus(input: RepoInput): Promise<GitHubStatus> {
   const { owner, repo, ref } = input;
   const token = process.env.GITHUB_TOKEN || '';
-  const url = `https://api.github.com/repos/${owner}/${repo}/actions/runs?branch=main&per_page=25`;
+  
+  const url = `https://api.github.com/repos/${owner}/${repo}/actions/runs?branch=${ref}&per_page=25`;
 
   const headers: Record<string, any> = {
     Accept: 'application/vnd.github+json'
